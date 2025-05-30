@@ -5,7 +5,10 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="text-xl font-semibold text-gray-800">Zemuria</div>
+        <a href="/">
+          <div className="text-xl font-semibold text-gray-800">Zemuria</div>
+        </a>
+
         <ul className="flex space-x-8 text-gray-700">
           <li>
             <NavLink

@@ -1,19 +1,23 @@
-// src/components/ChatWidget.jsx
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const toggleChat = () => setIsOpen(!isOpen);
+  const toggleChat = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
-  const sendMessage = async () => {
-    if (!userInput.trim()) return;
+  const sendMessage = useCallback(async () => {
+    const trimmedInput = userInput.trim();
+    if (!trimmedInput || loading) return;
 
-    const newMessages = [...messages, { sender: "user", text: userInput }];
-    setMessages(newMessages);
+    const userMessage = { sender: "user", text: trimmedInput };
+    setMessages((prev) => [...prev, userMessage]);
     setUserInput("");
+    setLoading(true);
 
     try {
       const res = await fetch(
@@ -21,33 +25,53 @@ const ChatWidget = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ inputs: { text: userInput } }),
+          body: JSON.stringify({ inputs: { text: trimmedInput } }),
         }
       );
       const data = await res.json();
-      setMessages([...newMessages, { sender: "bot", text: data.reply }]);
-    } catch (err) {
-      setMessages([
-        ...newMessages,
+
+      const botMessage = {
+        sender: "bot",
+        text: data.reply || "Sorry, I didn't get a response.",
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
         { sender: "bot", text: "Error communicating with the server." },
       ]);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [userInput, loading]);
 
   return (
     <div className="fixed bottom-5 right-5 z-50">
-      <button
-        onClick={toggleChat}
-        className="bg-blue-600 text-white w-14 h-14 rounded-full shadow-md text-xl"
-      >
-        💬
-      </button>
+      {!isOpen && (
+        <button
+          onClick={toggleChat}
+          className="bg-blue-600 text-white w-14 h-14 rounded-full shadow-md text-xl"
+          aria-label="Open chat widget"
+        >
+          💬
+        </button>
+      )}
 
       {isOpen && (
         <div className="w-80 h-96 bg-white shadow-lg rounded-lg flex flex-col mt-3 overflow-hidden border border-gray-300">
-          <div className="bg-blue-600 text-white text-center p-3 font-semibold">
-            AI Assistant
+          {/* Header with title and close button */}
+          <div className="bg-blue-600 text-white flex justify-between items-center p-3 font-semibold">
+            <span>AI Assistant</span>
+            <button
+              onClick={toggleChat}
+              aria-label="Close chat widget"
+              className="text-white hover:text-gray-200 text-2xl font-bold leading-none"
+            >
+              &times;
+            </button>
           </div>
+
           <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50">
             {messages.map((msg, idx) => (
               <div
@@ -62,6 +86,7 @@ const ChatWidget = () => {
               </div>
             ))}
           </div>
+
           <div className="p-2 border-t border-gray-300 flex gap-2">
             <input
               className="flex-1 px-3 py-1 border rounded focus:outline-none"
@@ -70,12 +95,14 @@ const ChatWidget = () => {
               placeholder="Type your message..."
               onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+              disabled={loading}
             />
             <button
-              className="bg-blue-600 text-white px-3 rounded"
+              className="bg-blue-600 text-white px-3 rounded disabled:opacity-50"
               onClick={sendMessage}
+              disabled={loading}
             >
-              Send
+              {loading ? "Sending..." : "Send"}
             </button>
           </div>
         </div>

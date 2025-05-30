@@ -3,7 +3,10 @@ const Chat = require('../models/Chat');
 
 exports.sendMessage = async (req, res) => {
   try {
-    const userMessage = req.body.inputs.text;
+    const userMessage = req.body.inputs?.text || req.body.userMessage;
+    if (!userMessage) {
+      return res.status(400).json({ error: 'User message is required' });
+    }
 
     const langflowResponse = await axios.post(
       process.env.LANGFLOW_API_URL,
@@ -22,7 +25,6 @@ exports.sendMessage = async (req, res) => {
     await chatEntry.save();
 
     res.json({ output: aiResponse });
-
   } catch (error) {
     console.error('Error in sendMessage:', error.message);
     res.status(500).json({ error: 'Server error' });
@@ -41,7 +43,7 @@ exports.saveChat = async (req, res) => {
 
     res.status(201).json({ message: 'Chat saved successfully' });
   } catch (error) {
-    console.error('Error saving chat:', error);
+    console.error('Error saving chat:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
