@@ -29,16 +29,44 @@ Zemuria ChatBot is a full-stack web application featuring a React frontend and a
 
 ## Technologies 🛠️
 
-| Layer      | Technology         |
-|------------|--------------------|
-| Frontend   | React.js, React Router, Tailwind CSS |
-| Backend    | Node.js, Express.js |
-| Database   | MongoDB            |
-| API        | Langflow, OpenAI   |
+| Layer    | Technology                     |
+| -------- | ------------------------------|
+| Frontend | React.js, React Router, Tailwind CSS |
+| Backend  | Node.js, Express.js            |
+| Database | MongoDB                       |
+| API      | Langflow, OpenAI              |
 
 ---
 
-## Project Structure 🏗️
+## How to Run
+
+### Prerequisites
+
+- Node.js (v14 or above)
+- npm or yarn
+- MongoDB (local or cloud instance)
+
+---
+
+### Client Setup
+
+```bash
+cd client
+npm install
+npm start
+
+
+### Server Setup
+cd server
+npm install
+
+MONGODB_URI=<your_mongodb_connection_string>
+PORT=5000
+
+Start the server
+npm run dev
+# or
+node app.js
 
 client/
 │
@@ -54,3 +82,4 @@ server/
 ├── models/ 🗃️
 ├── routes/ 🛣️
 ├── app.js 🏁
+└── config/
