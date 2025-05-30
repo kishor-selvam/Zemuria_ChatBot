@@ -3,7 +3,8 @@
 
 > **Resources Used**  
 > 🔗 [Frontend](https://chatgpt.com/share/683a0eef-d688-8000-aa53-f97874345aeb)  
-> 🔗 [Backend](https://chatgpt.com/share/683a16ba-09fc-8000-85c7-8f0dc7868eea)
+> 🔗 [Backend](https://chatgpt.com/share/683a16ba-09fc-8000-85c7-8f0dc7868eea)  
+> 🔗 [Generate Readme](https://chatgpt.com/share/683a28f3-6f18-8000-bf98-c1da8ec5efbd)
 
 ---
 
