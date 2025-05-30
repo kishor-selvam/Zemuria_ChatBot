@@ -1,5 +1,12 @@
 # Zemuria ChatBot 🤖✨
 
+
+> **Resources Used**  
+> 🔗 [Frontend](https://chatgpt.com/share/683a0eef-d688-8000-aa53-f97874345aeb)  
+> 🔗 [Backend](https://chatgpt.com/share/683a16ba-09fc-8000-85c7-8f0dc7868eea)
+
+---
+
 ## Overview 🗂️
 
 Zemuria ChatBot is a full-stack web application featuring a React frontend and a Node.js backend integrated with Langflow API for AI-driven chat functionality. The app supports multi-page routing, persistent chat history, and admin monitoring.
