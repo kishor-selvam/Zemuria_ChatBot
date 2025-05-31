@@ -72,9 +72,9 @@ MONGODB_URI=<your_mongodb_connection_string>
 PORT=5000
 
 Start the server
-npm run dev
+npm start
 # or
-node app.js
+node server.js
 
 client/
 │
@@ -89,5 +89,4 @@ server/
 ├── controllers/ 🎛️
 ├── models/ 🗃️
 ├── routes/ 🛣️
-├── app.js 🏁
-└── config/
+|── server.js 🏁
