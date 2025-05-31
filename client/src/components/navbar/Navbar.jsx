@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom"; // Optional, for active link styling if you use react-router
+import { NavLink } from "react-router-dom"; 
 
 const Navbar = () => {
   return (

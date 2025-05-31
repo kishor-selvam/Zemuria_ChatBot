@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { LANGFLOW_API } from "../api";
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,14 +21,11 @@ const ChatWidget = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        "http://localhost:7860/api/v1/run/cc2101a9-fb0e-4084-964e-dd26a287f454",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ inputs: { text: trimmedInput } }),
-        }
-      );
+      const res = await fetch(LANGFLOW_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ inputs: { text: trimmedInput } }),
+      });
       const data = await res.json();
 
       const botMessage = {
@@ -60,7 +58,6 @@ const ChatWidget = () => {
 
       {isOpen && (
         <div className="w-80 h-96 bg-white shadow-lg rounded-lg flex flex-col mt-3 overflow-hidden border border-gray-300">
-          {/* Header with title and close button */}
           <div className="bg-blue-600 text-white flex justify-between items-center p-3 font-semibold">
             <span>AI Assistant</span>
             <button
